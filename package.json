@@ -1,0 +1,79 @@
+{
+  "name": "@lexkrstn/react-modal",
+  "version": "1.0.0",
+  "homepage": "https://github.com/lexkrstn/react-modal",
+  "bugs": {
+    "url": "https://github.com/lexkrstn/react-modal/issues"
+  },
+  "license": "MIT",
+  "author": "Alexander Korostin <lexkrstn@gmail.com>",
+  "files": [
+    "*"
+  ],
+  "main": "lib/index.js",
+  "repository": "github:lexkrstn/react-modal",
+  "scripts": {
+    "start": "webpack-dev-server --open --config webpack.docs.js",
+    "build": "concurrently npm build:lib npm:build:docs",
+    "build:lib": "webpack --config webpack.lib.js",
+    "build:docs": "webpack --config webpack.docs.js",
+    "lint": "eslint src/",
+    "test": "jest"
+  },
+  "directories": {
+    "lib": "./lib",
+    "test": "./test",
+    "examples": "./docs"
+  },
+  "dependencies": {
+    "lodash": "^4.17.10",
+    "polished": "^1.9.3",
+    "prop-types": "^15.6.2",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "styled-components": "^3.4.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0-rc.1",
+    "@babel/core": "^7.0.0-rc.1",
+    "@babel/plugin-proposal-class-properties": "^7.0.0-rc.1",
+    "@babel/plugin-proposal-decorators": "^7.0.0-rc.1",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-rc.1",
+    "@babel/plugin-transform-regenerator": "^7.0.0-rc.1",
+    "@babel/preset-env": "^7.0.0-rc.1",
+    "@babel/preset-react": "^7.0.0-rc.1",
+    "@babel/runtime": "^7.0.0-rc.1",
+    "babel-eslint": "^8.2.6",
+    "babel-loader": "^8.0.0-beta.2",
+    "babel-plugin-styled-components": "^1.5.1",
+    "babel-plugin-transform-require-ignore": "~0.1.1",
+    "concurrently": "^3.6.1",
+    "eslint": "^5.4.0",
+    "eslint-plugin-babel": "^5.1.0",
+    "eslint-plugin-react": "^7.11.1",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^3.2.0",
+    "jest": "^23.5.0",
+    "webpack": "^4.16.5",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.5",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "jest": {
+    "verbose": true,
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "globals": {
+      "NODE_ENV": "test"
+    },
+    "moduleFileExtensions": [
+      "js",
+      "jsx"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "."
+    ]
+  }
+}
