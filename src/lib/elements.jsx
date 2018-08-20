@@ -11,11 +11,6 @@ export const Dialog = styled.div`
         max-width: 500px;
         margin: 1.75rem auto;
     }
-
-    &.fade {
-        transition: transform .3s ease-out;
-        transform: translate(0,-25%);
-    }
 `;
 
 export const Content = styled.div`
@@ -99,6 +94,7 @@ export const Footer = styled.div`
 `;
 
 export const Backdrop = styled.div`
+    display: none;
     position: fixed;
     top: 0;
     right: 0;
