@@ -1,5 +1,7 @@
 {
   "name": "@lexkrstn/react-modal",
+  "description": "Fully customizable React modals written with support of styled-components.",
+  "keywords": ["modal", "modals", "styled-components", "react", "ReactJS"],
   "version": "1.0.0",
   "homepage": "https://github.com/lexkrstn/react-modal",
   "bugs": {
@@ -14,7 +16,7 @@
   "repository": "github:lexkrstn/react-modal",
   "scripts": {
     "start": "webpack-dev-server --open --config webpack.docs.js",
-    "build": "concurrently npm build:lib npm:build:docs",
+    "build": "concurrently \"npm run build:lib\" \"npm run build:docs\"",
     "build:lib": "webpack --config webpack.lib.js",
     "build:docs": "webpack --config webpack.docs.js",
     "lint": "eslint src/",

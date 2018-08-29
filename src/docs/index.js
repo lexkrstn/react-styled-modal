@@ -19,31 +19,85 @@ injectGlobal`
 
 class App extends React.Component {
 	state = {
-		isOpen: false
+		isSimpleOpen: false,
+		isScrollingOpen: false,
+		isCenteredOpen: false,
+		isSmallOpen: false
 	};
 
 	render() {
-		const {isOpen} = this.state;
+		const {isSimpleOpen, isScrollingOpen, isCenteredOpen, isSmallOpen} = this.state;
 		return <div>
-			<h1>My UI</h1>
-			<button onClick={() => this.setState({isOpen: true})}>Button</button>
-			<Modal open={isOpen} onClose={this.handleClose} title="Title">
+			<button onClick={() => this.setState({isSimpleOpen: true})}>Open simple modal</button>
+			<button onClick={() => this.setState({isScrollingOpen: true})}>Open scrolling modal</button>
+			<button onClick={() => this.setState({isCenteredOpen: true})}>Open centered modal</button>
+			<button onClick={() => this.setState({isSmallOpen: true})}>Open small modal</button>
+			
+			<Modal open={isSimpleOpen} onClose={this.handleClose}>
 				<Modal.Header>
-					<Modal.Title>Title</Modal.Title>
-					<Modal.CloseButton  onClick={this.handleClose} />
+					<Modal.Title>Simple modal</Modal.Title>
+					<Modal.CloseButton onClick={this.handleClose} />
 				</Modal.Header>
 				<Modal.Body>
 					Modal content...
 				</Modal.Body>
 				<Modal.Footer>
-					<button type="submit">Save</button>
+					<button>Button</button>
 				</Modal.Footer>
+			</Modal>
+
+			<Modal open={isScrollingOpen} onClose={this.handleClose}>
+				<Modal.Header>
+					<Modal.Title>Scrolling modal</Modal.Title>
+					<Modal.CloseButton onClick={this.handleClose} />
+				</Modal.Header>
+				<Modal.Body>
+					<p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+					<p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+					<p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+					<p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+					<p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+					<p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+					<p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+					<p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+					<p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+					<p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+					<p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+				</Modal.Body>
+				<Modal.Footer>
+					<button>Button</button>
+				</Modal.Footer>
+			</Modal>
+
+			<Modal open={isCenteredOpen} onClose={this.handleClose} centered={true}>
+				<Modal.Header>
+					<Modal.Title>Centered modal</Modal.Title>
+					<Modal.CloseButton onClick={this.handleClose} />
+				</Modal.Header>
+				<Modal.Body>
+					&hellip;
+				</Modal.Body>
+			</Modal>
+
+			<Modal open={isSmallOpen} onClose={this.handleClose} size="small">
+				<Modal.Header>
+					<Modal.Title>Small modal</Modal.Title>
+					<Modal.CloseButton onClick={this.handleClose} />
+				</Modal.Header>
+				<Modal.Body>
+					&hellip;
+				</Modal.Body>
 			</Modal>
 		</div>;
 	}
 
 	handleClose = () => {
-		this.setState({isOpen: false});
+		this.setState({
+			isSimpleOpen: false,
+			isScrollingOpen: false,
+			isCenteredOpen: false,
+			isSmallOpen: false
+		});
 	};
 }
 

@@ -1,15 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, {injectGlobal} from 'styled-components';
 import {createUniversalPortal} from "react-portal-universal";
 import {Dialog, Content, Backdrop} from './elements';
-import {transitionEvent} from './helpers';
+import {transitionEndEvent} from './helpers';
+
+injectGlobal`
+	.modal-open {
+		overflow: hidden !important;
+	}
+`;
 
 class Modal extends React.Component {
 	static propTypes = {
-		title: PropTypes.string,
 		open: PropTypes.bool,
-		effect: PropTypes.string,
+		effect: PropTypes.oneOf(['fade']),
+		centered: PropTypes.bool,
+		size: PropTypes.oneOf(['small', 'medium', 'large']),
 		// Callbacks
 		onClose: PropTypes.func,
 		// Components
@@ -19,8 +26,10 @@ class Modal extends React.Component {
 	};
 
 	static defaultProps = {
+		size: 'medium',
 		open: false,
 		effect: 'fade',
+		centered: false,
 		onClose: () => {},
 		Dialog, Content, Backdrop
 	};
@@ -28,87 +37,85 @@ class Modal extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			open: props.open,
 			displayed: props.open,
 			hasOpenClass: props.open
 		};
 		this.dialogRef = React.createRef();
 	}
 
-	// DEPRECATED
-	componentWillReceiveProps(props) {
-		if (props.open !== this.props.open) {
-			if (props.open) {
-				// Don't wait the previous animation to end, delete the handler
-				if (this.handleTransitionEnd) {
-					this.dialogRef.current.removeEventListener(
-						'transitionend', this.handleTransitionEnd);
-					this.handleTransitionEnd = null;
-				}
-				// Set display: block...
-				this.setState({
-					displayed: true,
-					hasOpenClass: false
-				});
-				// ... and in the next JS frame add the class
-				this.classTimeoutId = setTimeout(() => {
-					this.setState({
-						displayed: true,
-						hasOpenClass: true
-					});
-					this.classTimeoutId = null;
-				}, 0);
-			} else {
-				// Don't wait the previous animation to end, delete the handler
-				if (this.classTimeoutId) {
-					clearTimeout(this.classTimeoutId);
-					this.classTimeoutId = null;
-				}
-				// Remove the class...
-				this.setState({
-					displayed: true,
-					hasOpenClass: false
-				});
-				// ... and set display: none after transition ends
-				this.handleTransitionEnd = () => {
-					this.setState({
-						displayed: false,
-						hasOpenClass: false
-					});
-					this.dialogRef.current.removeEventListener(
-						'transitionend', this.handleTransitionEnd);
-					this.handleTransitionEnd = null;
-				};
-				this.dialogRef.current.addEventListener(
-					'transitionend', this.handleTransitionEnd);
-			}
-		}
+	static getDerivedStateFromProps(props, state) {
+		return props.open === state.open ? null : {
+			open: props.open,
+			displayed: true,
+			hasOpenClass: false
+		};
 	}
 
-	/*componentDidMount() {
-		transitionEvent
-	}*/
+	chargeClassTimeoutId() {
+		this.classTimeoutId = setTimeout(() => {
+			this.setState({
+				displayed: true,
+				hasOpenClass: true
+			});
+			this.classTimeoutId = null;
+		}, 0);
+	}
 
-	componentWillUnmount() {
-		// Cleanup the timeout handler
+	clearClassTimeoutId() {
 		if (this.classTimeoutId) {
 			clearTimeout(this.classTimeoutId);
 			this.classTimeoutId = null;
 		}
-		// Cleanup the transitionend handler
+	}
+
+	chargeTransitionEndHandler() {
+		this.handleTransitionEnd = () => {
+			this.setState({
+				displayed: false,
+				hasOpenClass: false
+			});
+			this.clearTransitionEndHandler();
+		};
+		this.dialogRef.current.addEventListener(
+			transitionEndEvent(),
+			this.handleTransitionEnd
+		);
+	}
+
+	clearTransitionEndHandler() {
 		if (this.handleTransitionEnd) {
 			this.dialogRef.current.removeEventListener(
-				'transitionend', this.handleTransitionEnd);
+				transitionEndEvent(),
+				this.handleTransitionEnd
+			);
 			this.handleTransitionEnd = null;
 		}
 	}
 
+	addBodyClass() {
+		document.body.classList.add('modal-open');
+	}
+
+	removeBodyClass() {
+		document.body.classList.remove('modal-open');
+	}
+
+	componentWillUnmount() {
+		this.removeBodyClass();
+		this.clearClassTimeoutId();
+		this.clearTransitionEndHandler();
+	}
+
 	render() {
-		const {className, children, effect, Dialog, Content, Backdrop} = this.props;
+		const {className, centered, size, children, effect, Dialog, Content, Backdrop} = this.props;
 		const {displayed, hasOpenClass} = this.state;
 
 		const modalClasses = [className];
 		if (hasOpenClass) modalClasses.push('open');
 		if (effect) modalClasses.push(effect);
+		if (centered) modalClasses.push('centered');
+		if (size) modalClasses.push(size);
 
 		const modal = <div
 			className={modalClasses.join(' ')}
@@ -139,6 +146,23 @@ class Modal extends React.Component {
 			{createUniversalPortal(modal, '#modal-root')}
 			{createUniversalPortal(backdrop, '#modal-root')}
 		</React.Fragment>
+	}
+
+	componentDidUpdate(prevProps, prevState) {
+		if (this.state.displayed && !prevState.displayed) {
+			this.addBodyClass();
+		} else if (!this.state.displayed && prevState.displayed) {
+			this.removeBodyClass();
+		}
+		if (this.state.displayed && !this.state.hasOpenClass) {
+			this.clearClassTimeoutId();
+			this.clearTransitionEndHandler();
+			if (this.state.open) {
+				this.chargeClassTimeoutId();
+			} else {
+				this.chargeTransitionEndHandler();
+			}
+		}
 	}
 
 	handleModalClick = () => {
@@ -177,7 +201,12 @@ export default styled(Modal)`
 	}
 
 	&.fade {
+		opacity: 0;
 		transition: opacity .15s linear;
+
+		&.open {
+			opacity: 1;
+		}
 	}
 
 	&.fade ${Dialog} {
@@ -187,5 +216,29 @@ export default styled(Modal)`
 
 	&.open ${Dialog} {
 		transform: translate(0,0);
+	}
+
+	&.centered ${Dialog} {
+		display: flex;
+		align-items: center;
+		min-height: calc(100% - (1.75rem * 2));
+
+		&::before {
+			content: '';
+			display: block;
+			height: calc(100vh - (1.75rem * 2));
+		}
+	}
+
+	&.small ${Dialog} {
+		@media (min-width: 576px) {
+			max-width: 300px;
+		}
+	}
+
+	&.large ${Dialog} {
+		@media (min-width: 576px) {
+			max-width: 800px;
+		}
 	}
 `;
