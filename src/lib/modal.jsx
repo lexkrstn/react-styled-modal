@@ -17,6 +17,7 @@ class Modal extends React.Component {
 		effect: PropTypes.oneOf(['fade']),
 		centered: PropTypes.bool,
 		size: PropTypes.oneOf(['small', 'medium', 'large']),
+		closeOnEsc: PropTypes.bool,
 		// Callbacks
 		onClose: PropTypes.func,
 		// Components
@@ -30,6 +31,7 @@ class Modal extends React.Component {
 		open: false,
 		effect: 'fade',
 		centered: false,
+		closeOnEsc: true,
 		onClose: () => {},
 		Dialog, Content, Backdrop
 	};
@@ -41,6 +43,7 @@ class Modal extends React.Component {
 			displayed: props.open,
 			hasOpenClass: props.open
 		};
+		this.modalRef = React.createRef();
 		this.dialogRef = React.createRef();
 	}
 
@@ -123,6 +126,8 @@ class Modal extends React.Component {
 			role="dialog"
 			style={{display: displayed ? 'block' : 'none'}}
 			onClick={this.handleModalClick}
+			onKeyUp={this.handleKeyUp}
+			ref={this.modalRef}
 		>
 			<Dialog
 				role="document"
@@ -159,10 +164,29 @@ class Modal extends React.Component {
 			this.clearTransitionEndHandler();
 			if (this.state.open) {
 				this.chargeClassTimeoutId();
+				if (!this.hasFocus()) {
+					this.focus();
+				}
 			} else {
 				this.chargeTransitionEndHandler();
 			}
 		}
+	}
+
+	focus() {
+		this.modalRef.current.focus();
+	}
+
+	hasFocus() {
+		var el = document.activeElement;
+		var modalEl = this.modalRef.current;
+		while (el) {
+			if (el == modalEl) {
+				return true;
+			}
+			el = el.parentElement;
+		}
+		return false;
 	}
 
 	handleModalClick = () => {
@@ -175,6 +199,12 @@ class Modal extends React.Component {
 
 	handleDialogClick = () => {
 		this.clickFromDialog = true;
+	};
+
+	handleKeyUp = (e) => {
+		if ((e.key === 'Escape' || e.keyCode === 27) && this.props.closeOnEsc) {
+			this.props.onClose();
+		}
 	};
 }
 
