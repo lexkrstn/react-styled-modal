@@ -2,7 +2,7 @@
 
 Fully customizable `React` modal component written with support of `styled-components`.
 
-See [DEMO](https://lexkrstn.github.io/react-modal/)
+See [DEMO](https://lexkrstn.github.io/react-styled-modal/)
 
 ## Advantages:
 - Customizable via styled-components themes and/or subcomponent style overriding
