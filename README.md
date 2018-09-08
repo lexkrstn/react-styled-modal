@@ -9,6 +9,7 @@ See [DEMO](https://lexkrstn.github.io/react-modal/)
   (see examples below).
 - Does **NOT depend** on any external library like jQuery, Bootstrap etc.
 - Supports **SSR** via [react-portal-universal](https://github.com/MichalZalecki/react-portal-universal).
+- Responsive.
 
 ## Example of usage:
 
@@ -43,7 +44,7 @@ just after your application's root element inside the body tag.
 
 ## Options
 
-**The Modal component props**
+**The Modal component props:**
 - `open` (*required*) Toggles a modal's open state.
 - `effect` (*default = "fade"*) Effect name.
 - `centered` (*default = false*) Vertically centers the modal.
@@ -54,7 +55,64 @@ just after your application's root element inside the body tag.
   components extended from the basic ones to customize their representation.
   Try to avoid using this method whenever it's possible.
 
+## Theming
+
+The preferrable method to theme your modal is to do it via passing the `prop` to
+the closest `ThemeProvider` component. This way you may define style variations
+of your modals. But if you need more flexibility you also is allowed to extend
+basic styles of all the (sub)components and pass them to the approiate modal's
+props (see the section above).
+
+The modal component (and it's subcomponents) may use the following theme
+options under the `props.theme.modal.*` (notice that last `modal` subdomain):
+
+```javascript
+modal: {
+    zIndex: 1072,
+    smallMaxWidth: '300px',
+    mediumWidth: '500px',
+    largeWidth: '800px',
+
+    backgroundColor: '#fff',
+    borderColor: 'rgba(0,0,0,.2)',
+    borderWidth: '1px',
+    borderRadius: '.3rem',
+    boxShadow: 'none',
+    outline: 0,
+    bodyPadding: '1rem',
+
+    titleLineHeight: 1.5,
+    titleFontSize: '1.25rem',
+    titleFontFamily: 'inherit',
+    titleFontWeight: 500,
+    titleTextColor: 'inherit',
+
+    closeButtonFontSize: '1.5rem',
+    closeButtonFontWeight: 700,
+    closeButtonLineHeight: 1.25,
+    closeButtonTextColor: '#000',
+    closeButtonTextShadow: '0 1px 0 #fff',
+    closeButtonOpacity: .5,
+    closeButtonBackground: 'transparent',
+    closeButtonBorder: 0,
+    closeButtonPadding: '1rem',
+
+    bodyColor: 'transparent',
+
+    headerColor: 'transparent',
+    headerPadding: '1rem',
+    headerBorderBottom: '1px solid #e9ecef',
+
+    footerColor: 'transparent',
+    footerPadding: '1rem',
+    footerBorderTop: '1px solid #e9ecef',
+
+    backdropZIndex: 1040,
+    backdropColor: '#000',
+    backdropOpacity: .5
+}
+```
+
 ## TODO:
 - Using without effect
-- Customizing via themes
 - Stacking

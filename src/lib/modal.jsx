@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled, {injectGlobal} from 'styled-components';
 import {createUniversalPortal} from "react-portal-universal";
 import {Dialog, Content, Backdrop} from './elements';
-import {transitionEndEvent} from './helpers';
+import {transitionEndEvent, theme} from './helpers';
 
 injectGlobal`
 	.modal-open {
@@ -11,7 +11,7 @@ injectGlobal`
 	}
 `;
 
-class Modal extends React.Component {
+class Modal extends React.PureComponent {
 	static propTypes = {
 		open: PropTypes.bool,
 		effect: PropTypes.oneOf(['fade']),
@@ -215,11 +215,9 @@ export default styled(Modal)`
 	right: 0;
 	bottom: 0;
 	left: 0;
-	z-index: 1050;
-	display: none;
+	z-index: ${theme('zIndex', 1072)};
 	overflow: hidden;
 	outline: 0;
-	z-index: 1072;
 
 	&, *, ::before, ::after {
 		box-sizing: border-box;
@@ -262,13 +260,13 @@ export default styled(Modal)`
 
 	&.small ${Dialog} {
 		@media (min-width: 576px) {
-			max-width: 300px;
+			max-width: ${theme('smallWidth', '300px')};
 		}
 	}
 
 	&.large ${Dialog} {
 		@media (min-width: 576px) {
-			max-width: 800px;
+			max-width: ${theme('largeWidth', '800px')};
 		}
 	}
 `;

@@ -17,3 +17,8 @@ export function transitionEndEvent() {
 	}
 	return transitionEndEvent.cached;
 }
+
+export const theme = (propName, defaultValue) => (props) => {
+	const prop = props.theme && props.theme.modal && props.theme.modal[propName];
+	return prop !== undefined ? prop : defaultValue;
+};
