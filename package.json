@@ -1,8 +1,14 @@
 {
   "name": "react-styled-modal",
   "description": "Fully customizable React modals written with support of styled-components.",
-  "keywords": ["modal", "modals", "styled-components", "react", "ReactJS"],
-  "version": "1.0.0",
+  "keywords": [
+    "modal",
+    "modals",
+    "styled-components",
+    "react",
+    "ReactJS"
+  ],
+  "version": "1.1.0",
   "homepage": "https://github.com/lexkrstn/react-styled-modal",
   "bugs": {
     "url": "https://github.com/lexkrstn/react-styled-modal/issues"
