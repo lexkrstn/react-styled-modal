@@ -59,8 +59,8 @@ just after your application's root element inside the body tag.
 
 The preferrable method to theme your modal is to do it via passing the `prop` to
 the closest `ThemeProvider` component. This way you may define style variations
-of your modals. But if you need more flexibility you also is allowed to extend
-basic styles of all the (sub)components and pass them to the approiate modal's
+of your modals. But if you need more flexibility you're also can extend
+base styles of all the (sub)components and pass them to the approiate modal's
 props (see the section above).
 
 The modal component (and it's subcomponents) may use the following theme
@@ -115,9 +115,9 @@ modal: {
 
 ## Stacking
 
-To enable stacking you should wrap all the modals using the same stack into
-`<ModalProvider></ModalProvider>` component (or just use single global one).
-For example:
+To enable stacking you have to wrap each group of the modals using the same
+stack into a `<ModalProvider></ModalProvider>` component (or just use single
+global one). For example:
 
 ```javascript
 import Modal, {ModalProvider} from 'react-styled-modal';
@@ -131,9 +131,9 @@ import Modal, {ModalProvider} from 'react-styled-modal';
 </ModalProvider>
 ```
 
-Unless `<Modal/>`s are not nested in any `<ModalProvider/>` you can't keep them
-open simultanuosly, but it's ok having modals unwrapped if they don't use that
-feature.
+Unless `<Modal/>` components are not nested in any `<ModalProvider/>` you can't
+keep them open simultanuosly, but it's ok having modals unwrapped if they don't
+use that feature.
 
 ## TODO:
 - Investigate and minimize rerenderings.
