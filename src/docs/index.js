@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import styled, {injectGlobal, ThemeProvider, css} from 'styled-components';
-import Modal from '../lib';
+import Modal, {ModalProvider} from '../lib';
 
 injectGlobal`
 	html, body {
@@ -59,13 +59,15 @@ class App extends React.PureComponent {
 		isScrollingOpen: false,
 		isCenteredOpen: false,
 		isSmallOpen: false,
-		isThemedOpen: false
+		isThemedOpen: false,
+		isStackedOpen: false,
+		isPetOpen: false
 	};
 
 	render() {
 		const {
 			isSimpleOpen, isScrollingOpen, isCenteredOpen, isSmallOpen,
-			isBareOpen, isThemedOpen
+			isBareOpen, isThemedOpen, isStackedOpen, isPetOpen
 		} = this.state;
 		return <Container>
 			<Button expanded onClick={() => this.setState({isSimpleOpen: true})}>Simple modal</Button>
@@ -74,6 +76,7 @@ class App extends React.PureComponent {
 			<Button expanded onClick={() => this.setState({isCenteredOpen: true})}>Centered modal</Button>
 			<Button expanded onClick={() => this.setState({isSmallOpen: true})}>Small modal</Button>
 			<Button expanded onClick={() => this.setState({isThemedOpen: true})}>Themed modal</Button>
+			<Button expanded onClick={() => this.setState({isStackedOpen: true})}>Stacked modals</Button>
 
 			<Modal open={isSimpleOpen} onClose={this.handleClose}>
 				<Modal.Header>
@@ -139,7 +142,7 @@ class App extends React.PureComponent {
 				<ThemeProvider theme={hollowButtonTheme}>
 					<Modal open={isThemedOpen} onClose={this.handleClose}>
 						<Modal.Header>
-							<Modal.Title>Simple modal</Modal.Title>
+							<Modal.Title>Themed modal</Modal.Title>
 							<Modal.CloseButton onClick={this.handleClose} />
 						</Modal.Header>
 						<Modal.Body>
@@ -151,6 +154,34 @@ class App extends React.PureComponent {
 					</Modal>
 				</ThemeProvider>
 			</ThemeProvider>
+
+			<ModalProvider>
+				<Modal open={isStackedOpen} onClose={this.handleClose}>
+					<Modal.Header>
+						<Modal.Title>Stacked modal</Modal.Title>
+						<Modal.CloseButton onClick={this.handleClose} />
+					</Modal.Header>
+					<Modal.Body>
+						Modal content...
+					</Modal.Body>
+					<Modal.Footer>
+						<Button onClick={() => this.setState({isPetOpen: true})}>Open stacked!</Button>
+					</Modal.Footer>
+				</Modal>
+
+				<Modal centered open={isPetOpen} onClose={() => this.setState({isPetOpen: false})}>
+					<Modal.Header>
+						<Modal.Title>Pet modal</Modal.Title>
+						<Modal.CloseButton onClick={() => this.setState({isPetOpen: false})} />
+					</Modal.Header>
+					<Modal.Body>
+						Modal content...
+					</Modal.Body>
+					<Modal.Footer>
+						<Button>Button</Button>
+					</Modal.Footer>
+				</Modal>
+			</ModalProvider>
 		</Container>;
 	}
 
@@ -161,7 +192,8 @@ class App extends React.PureComponent {
 			isScrollingOpen: false,
 			isCenteredOpen: false,
 			isSmallOpen: false,
-			isThemedOpen: false
+			isThemedOpen: false,
+			isStackedOpen: false
 		});
 	};
 }

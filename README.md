@@ -39,7 +39,7 @@ npm i -S react-styled-modal
 ## Prerequisites
 
 The modals are rendered through portals and require there must be an empty
-`#modal-root` element somewhere in your DOM. For the most cases you may put it
+`#modal-root` element somewhere in your DOM. For most cases you may put it
 just after your application's root element inside the body tag.
 
 ## Options
@@ -113,6 +113,28 @@ modal: {
 }
 ```
 
+## Stacking
+
+To enable stacking you should wrap all the modals using the same stack into
+`<ModalProvider></ModalProvider>` component (or just use single global one).
+For example:
+
+```javascript
+import Modal, {ModalProvider} from 'react-styled-modal';
+...
+<ModalProvider>
+    <Modal>...</Modal>
+    ...
+    <SomeComponent>
+        <Modal>...</Modal>
+    </SomeComponent>
+</ModalProvider>
+```
+
+Unless a `<Modal/>` is not nested in any `<ModalProvider/>` you can't keep open
+multiple modals simultanuosly, but it's ok having modals unwrapped if they don't
+use that feature.
+
 ## TODO:
-- Using without effect
-- Stacking
+- Investigate and minimize rerenderings.
+- More effects (maybe including a "no effect" effect =)).

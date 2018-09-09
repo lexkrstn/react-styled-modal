@@ -4,6 +4,7 @@ import styled, {injectGlobal} from 'styled-components';
 import {createUniversalPortal} from "react-portal-universal";
 import {Dialog, Content, Backdrop} from './elements';
 import {transitionEndEvent, theme} from './helpers';
+import ModalProvider, {Context} from './provider';
 
 injectGlobal`
 	.modal-open {
@@ -11,7 +12,7 @@ injectGlobal`
 	}
 `;
 
-class Modal extends React.PureComponent {
+class Modal extends React.Component {
 	static propTypes = {
 		open: PropTypes.bool,
 		effect: PropTypes.oneOf(['fade']),
@@ -23,7 +24,9 @@ class Modal extends React.PureComponent {
 		// Components
 		Dialog: PropTypes.func,
 		Content: PropTypes.func,
-		Backdrop: PropTypes.func
+		Backdrop: PropTypes.func,
+		// The provider's (or its stub) interface
+		provider: PropTypes.object.isRequired
 	};
 
 	static defaultProps = {
@@ -41,18 +44,27 @@ class Modal extends React.PureComponent {
 		this.state = {
 			open: props.open,
 			displayed: props.open,
-			hasOpenClass: props.open
+			hasOpenClass: props.open,
+			id: props.provider.generateId(),
+			elevation: 0
 		};
 		this.modalRef = React.createRef();
 		this.dialogRef = React.createRef();
 	}
 
 	static getDerivedStateFromProps(props, state) {
-		return props.open === state.open ? null : {
+		const newState = props.open === state.open ? null : {
 			open: props.open,
 			displayed: true,
 			hasOpenClass: false
 		};
+		if (props.open && !state.open) {
+			newState.elevation = props.provider.popup(state.id);
+		}
+		else if (!props.open && state.open) {
+			props.provider.hide(state.id);
+		}
+		return newState;
 	}
 
 	chargeClassTimeoutId() {
@@ -112,7 +124,7 @@ class Modal extends React.PureComponent {
 
 	render() {
 		const {className, centered, size, children, effect, Dialog, Content, Backdrop} = this.props;
-		const {displayed, hasOpenClass} = this.state;
+		const {displayed, hasOpenClass, elevation} = this.state;
 
 		const modalClasses = [className];
 		if (hasOpenClass) modalClasses.push('open');
@@ -124,7 +136,10 @@ class Modal extends React.PureComponent {
 			className={modalClasses.join(' ')}
 			tabIndex="-1"
 			role="dialog"
-			style={{display: displayed ? 'block' : 'none'}}
+			style={{
+				display: displayed ? 'block' : 'none',
+				zIndex: theme('zIndex', 1072)(this.props) + elevation
+			}}
 			onClick={this.handleModalClick}
 			onKeyUp={this.handleKeyUp}
 			ref={this.modalRef}
@@ -144,7 +159,10 @@ class Modal extends React.PureComponent {
 
 		const backdrop = <Backdrop
 			className={backdropClasses.join(' ')}
-			style={{display: displayed ? 'block' : 'none'}}
+			style={{
+				display: displayed ? 'block' : 'none',
+				zIndex: theme('zIndex', 1072)(this.props) + elevation - 1
+			}}
 		/>;
 
 		return <React.Fragment>
@@ -208,7 +226,13 @@ class Modal extends React.PureComponent {
 	};
 }
 
-export default styled(Modal)`
+const ConsumerModal = (props) => (
+	<Context.Consumer>
+		{provider => <Modal {...props} provider={provider} />}
+	</Context.Consumer>
+);
+
+export default styled(ConsumerModal)`
 	display: none;
 	position: fixed;
 	top: 0;
