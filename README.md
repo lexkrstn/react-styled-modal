@@ -131,9 +131,9 @@ import Modal, {ModalProvider} from 'react-styled-modal';
 </ModalProvider>
 ```
 
-Unless a `<Modal/>` is not nested in any `<ModalProvider/>` you can't keep open
-multiple modals simultanuosly, but it's ok having modals unwrapped if they don't
-use that feature.
+Unless `<Modal/>`s are not nested in any `<ModalProvider/>` you can't keep them
+open simultanuosly, but it's ok having modals unwrapped if they don't use that
+feature.
 
 ## TODO:
 - Investigate and minimize rerenderings.
