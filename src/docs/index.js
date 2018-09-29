@@ -165,14 +165,14 @@ class App extends React.PureComponent {
 						Modal content...
 					</Modal.Body>
 					<Modal.Footer>
-						<Button onClick={() => this.setState({isPetOpen: true})}>Open stacked!</Button>
+						<Button onClick={this.openPet}>Open stacked!</Button>
 					</Modal.Footer>
 				</Modal>
 
-				<Modal centered open={isPetOpen} onClose={() => this.setState({isPetOpen: false})}>
+				<Modal centered open={isPetOpen} onClose={this.closePet}>
 					<Modal.Header>
 						<Modal.Title>Pet modal</Modal.Title>
-						<Modal.CloseButton onClick={() => this.setState({isPetOpen: false})} />
+						<Modal.CloseButton onClick={this.closePet} />
 					</Modal.Header>
 					<Modal.Body>
 						Modal content...
@@ -196,6 +196,9 @@ class App extends React.PureComponent {
 			isStackedOpen: false
 		});
 	};
+
+	openPet = () => this.setState({isPetOpen: true});
+	closePet = () => this.setState({isPetOpen: false});
 }
 
 const Container = styled.div`

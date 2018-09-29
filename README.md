@@ -136,5 +136,4 @@ keep them open simultanuosly, but it's ok having modals unwrapped if they don't
 use that feature.
 
 ## TODO:
-- Investigate and minimize rerenderings.
 - More effects (maybe including a "no effect" effect =)).
