@@ -4,7 +4,7 @@ import styled, {injectGlobal} from 'styled-components';
 import {createUniversalPortal} from "react-portal-universal";
 import {Dialog, Content, Backdrop} from './elements';
 import {transitionEndEvent, theme} from './helpers';
-import ModalProvider, {Context} from './provider';
+import {Context} from './provider';
 
 injectGlobal`
 	.modal-open {
@@ -15,7 +15,7 @@ injectGlobal`
 class Modal extends React.Component {
 	static propTypes = {
 		open: PropTypes.bool,
-		effect: PropTypes.oneOf(['fade']),
+		effect: PropTypes.oneOf(['none', 'fade']),
 		centered: PropTypes.bool,
 		size: PropTypes.oneOf(['small', 'medium', 'large']),
 		closeOnEsc: PropTypes.bool,
@@ -55,8 +55,8 @@ class Modal extends React.Component {
 	static getDerivedStateFromProps(props, state) {
 		const newState = props.open === state.open ? null : {
 			open: props.open,
-			displayed: true,
-			hasOpenClass: false
+			displayed: props.effect === 'none' ? props.open : true,
+			hasOpenClass: props.effect === 'none' ? props.open : false
 		};
 		if (props.open && !state.open) {
 			newState.elevation = props.provider.popup(state.id);
@@ -177,7 +177,7 @@ class Modal extends React.Component {
 		} else if (!this.state.displayed && prevState.displayed) {
 			this.removeBodyClass();
 		}
-		if (this.state.displayed && !this.state.hasOpenClass) {
+		if (this.props.effect !== 'none' && this.state.displayed && !this.state.hasOpenClass) {
 			this.clearClassTimeoutId();
 			this.clearTransitionEndHandler();
 			if (this.state.open) {

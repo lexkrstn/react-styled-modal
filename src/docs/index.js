@@ -74,7 +74,7 @@ class App extends React.PureComponent {
 			<Button expanded onClick={() => this.setState({isBareOpen: true})}>Bare modal</Button>
 			<Button expanded onClick={() => this.setState({isScrollingOpen: true})}>Scrolling modal</Button>
 			<Button expanded onClick={() => this.setState({isCenteredOpen: true})}>Centered modal</Button>
-			<Button expanded onClick={() => this.setState({isSmallOpen: true})}>Small modal</Button>
+			<Button expanded onClick={() => this.setState({isSmallOpen: true})}>Small modal (no effect)</Button>
 			<Button expanded onClick={() => this.setState({isThemedOpen: true})}>Themed modal</Button>
 			<Button expanded onClick={() => this.setState({isStackedOpen: true})}>Stacked modals</Button>
 
@@ -128,9 +128,9 @@ class App extends React.PureComponent {
 				</Modal.Body>
 			</Modal>
 
-			<Modal open={isSmallOpen} onClose={this.handleClose} size="small">
+			<Modal open={isSmallOpen} onClose={this.handleClose} size="small" effect="none">
 				<Modal.Header>
-					<Modal.Title>Small modal</Modal.Title>
+					<Modal.Title>Small modal with no effect</Modal.Title>
 					<Modal.CloseButton onClick={this.handleClose} />
 				</Modal.Header>
 				<Modal.Body>

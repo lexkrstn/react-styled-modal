@@ -125,4 +125,8 @@ export const Backdrop = styled.div`
             opacity: ${theme('backdropOpacity', .5)};
         }
     }
+
+    &.none {
+        opacity: ${theme('backdropOpacity', .5)};
+    }
 `;

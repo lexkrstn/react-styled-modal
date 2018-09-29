@@ -46,7 +46,7 @@ just after your application's root element inside the body tag.
 
 **The Modal component props:**
 - `open` (*required*) Toggles a modal's open state.
-- `effect` (*default = "fade"*) Effect name.
+- `effect` (*default = "fade", "fade|none"*) Effect name.
 - `centered` (*default = false*) Vertically centers the modal.
 - `size` (*default = "medium", "small|medium|large"*) Predefined size name. Sets maximum width.
 - `onClose` The callback is executed when user clicks on a backdrop.
@@ -54,6 +54,11 @@ just after your application's root element inside the body tag.
   `Modal.Backdrop` components by defaults. You may pass re-styled
   components extended from the basic ones to customize their representation.
   Try to avoid using this method whenever it's possible.
+
+## Caveat
+
+> Do not change `effect` prop over the time (or at least be sure the modal is
+> completely closed), that may lead to unexpected behavior.
 
 ## Theming
 
@@ -131,9 +136,6 @@ import Modal, {ModalProvider} from 'react-styled-modal';
 </ModalProvider>
 ```
 
-Unless `<Modal/>` components are not nested in any `<ModalProvider/>` you can't
+Unless `<Modal/>` components are nested in any `<ModalProvider/>` you can't
 keep them open simultanuosly, but it's ok having modals unwrapped if they don't
 use that feature.
-
-## TODO:
-- More effects (maybe including a "no effect" effect =)).
