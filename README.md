@@ -8,7 +8,6 @@ See [DEMO](https://lexkrstn.github.io/react-styled-modal/)
 - Customizable via styled-components themes and/or subcomponent style overriding
   (see examples below).
 - Does **NOT depend** on any external library like jQuery, Bootstrap etc.
-- Supports **SSR** via [react-portal-universal](https://github.com/MichalZalecki/react-portal-universal).
 - Responsive.
 
 ## Example of usage:
