@@ -18,14 +18,16 @@
   "files": [
     "*"
   ],
-  "main": "lib/index.js",
+  "main": "./lib/index.js",
+  "types": "./lib/src/lib/index.d.ts",
   "repository": "github:lexkrstn/react-styled-modal",
   "scripts": {
     "start": "webpack-dev-server --open --config webpack.docs.js",
     "build": "concurrently \"npm run build:lib\" \"npm run build:docs\"",
     "build:lib": "webpack --config webpack.lib.js",
     "build:docs": "webpack --config webpack.docs.js",
-    "preversion": "npm run build"
+    "preversion": "npm run build",
+    "lint": "tslint \"src/**/*.{ts,tsx}\""
   },
   "directories": {
     "lib": "./lib",
@@ -33,48 +35,27 @@
     "examples": "./docs"
   },
   "dependencies": {
-    "prop-types": "^15.6.2",
-    "react": "^16.5.2",
-    "react-dom": "^16.5.2",
-    "react-portal-universal": "^0.1.2",
-    "styled-components": "^3.4.9"
+    "prop-types": "^15.8.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "styled-components": "^5.3.3"
   },
   "devDependencies": {
-    "@babel/cli": "^7.1.2",
-    "@babel/core": "^7.1.2",
-    "@babel/plugin-proposal-class-properties": "^7.1.0",
-    "@babel/plugin-proposal-decorators": "^7.1.2",
-    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
-    "@babel/plugin-transform-regenerator": "^7.0.0",
-    "@babel/preset-env": "^7.1.0",
-    "@babel/preset-react": "^7.0.0",
-    "@babel/runtime": "^7.1.2",
-    "babel-loader": "^8.0.4",
-    "babel-plugin-styled-components": "^1.7.1",
-    "babel-plugin-transform-require-ignore": "~0.1.1",
-    "concurrently": "^4.0.1",
-    "html-loader": "^0.5.5",
-    "html-webpack-plugin": "^3.2.0",
-    "webpack": "^4.20.2",
-    "webpack-cli": "^3.1.1",
-    "webpack-dev-server": "^3.1.9",
-    "webpack-node-externals": "^1.7.2"
-  },
-  "jest": {
-    "verbose": true,
-    "transform": {
-      "^.+\\.jsx?$": "babel-jest"
-    },
-    "globals": {
-      "NODE_ENV": "test"
-    },
-    "moduleFileExtensions": [
-      "js",
-      "jsx"
-    ],
-    "moduleDirectories": [
-      "node_modules",
-      "."
-    ]
+    "@types/react": "^17.0.37",
+    "@types/react-dom": "^17.0.11",
+    "@types/styled-components": "^5.1.18",
+    "concurrently": "^6.5.1",
+    "html-loader": "^3.0.1",
+    "html-webpack-plugin": "^5.5.0",
+    "style-loader": "^3.3.1",
+    "terser-webpack-plugin": "^5.3.0",
+    "ts-loader": "^9.2.6",
+    "typescript": "^4.5.4",
+    "typescript-plugin-styled-components": "^2.0.0",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.65.0",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.7.1",
+    "webpack-node-externals": "^3.0.0"
   }
 }

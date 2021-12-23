@@ -1,38 +1,28 @@
-module.exports = {
+const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default;
+
+module.exports = (env, options) => ({
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.tsx?$/,
+        loader: 'ts-loader',
         exclude: /node_modules/,
-        use: [{
-          loader: 'babel-loader',
-          options: {
-            envName: 'node',
-            presets: [
-              ["@babel/preset-env", {
-                targets: {node: "current"}
-              }]
-            ],
-            plugins: [
-              '@babel/plugin-proposal-object-rest-spread',
-              '@babel/plugin-proposal-class-properties',
-              ['@babel/plugin-proposal-decorators', {
-                legacy: true
-              }],
-            ]
-          }
-        }]
+        options: {
+          getCustomTransformers: () => ({
+            before: options.mode !== 'production' ? [createStyledComponentsTransformer()] : [],
+          }),
+        },
       },
       {
         test: /\.html$/,
         use: [{
-          loader: "html-loader"
+          loader: "html-loader",
         }]
       }
     ]
   },
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: ['.js', '.jsx', '.tsx', '.ts'],
   },
-  plugins: []
-};
+  plugins: [],
+});
