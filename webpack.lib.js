@@ -16,7 +16,7 @@ module.exports = (env, options) => {
       path: path.resolve(__dirname, 'lib'),
       filename: 'index.js',
       library: 'react-styled-modal',
-      libraryTarget: 'commonjs2',
+      libraryTarget: 'umd',
     },
     optimization: {
       minimize: true,

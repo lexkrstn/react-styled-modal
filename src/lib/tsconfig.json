@@ -6,7 +6,7 @@
     "outDir": "../../lib/",
     "noImplicitAny": true,
     "sourceMap": true,
-    "module": "es6",
+    "module": "commonjs",
     "target": "es5",
     "jsx": "react",
     "moduleResolution": "node",
