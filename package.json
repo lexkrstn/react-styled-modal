@@ -19,7 +19,7 @@
     "*"
   ],
   "main": "./lib/index.js",
-  "types": "./lib/src/lib/index.d.ts",
+  "types": "./lib/index.d.ts",
   "repository": "github:lexkrstn/react-styled-modal",
   "scripts": {
     "start": "webpack-dev-server --open --config webpack.docs.js",
