@@ -1,4 +1,4 @@
-import styled, { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle, css } from 'styled-components';
 import { theme } from './helpers';
 
 export const GlobalStyle = createGlobalStyle`
@@ -99,13 +99,27 @@ export const Header = styled.div`
   }
 `;
 
-export const Footer = styled.div`
+export const FOOTER_ALIGN = ['center', 'left', 'right', 'spread'] as const;
+export type FooterAlign = typeof FOOTER_ALIGN[number];
+export type FooterProps = { [K in FooterAlign]?: boolean };
+const footerJustify: Record<FooterAlign, string> = {
+  center: 'center',
+  left: 'flex-start',
+  right: 'flex-end',
+  spread: 'space-between',
+};
+function footerAlignMixin(props: FooterProps) {
+  const align = FOOTER_ALIGN.find(key => props[key]) ?? 'right';
+  return css`justify-content: ${footerJustify[align]};`;
+}
+
+export const Footer = styled.div<FooterProps>`
   display: flex;
   align-items: center;
-  justify-content: flex-end;
   padding: ${theme('footerPadding', '1rem')};
   border-top: ${theme('footerBorderTop', '1px solid #e9ecef')};
   background-color: ${theme('footerColor', 'transparent')};
+  ${footerAlignMixin}
 `;
 
 export const Backdrop = styled.div`
