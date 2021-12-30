@@ -16,7 +16,8 @@
   "license": "MIT",
   "author": "Alexander Korostin <lexkrstn@gmail.com>",
   "files": [
-    "*"
+    "lib/**/*",
+    "docs/**/*"
   ],
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
